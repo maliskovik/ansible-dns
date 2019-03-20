@@ -1,0 +1,66 @@
+// GENERATED WITH ANSIBLE - MANUAL CHANGES WILL BE LOST
+
+options {
+    directory "{{ dns_directory }}";
+    version   "{{ dns_options.version }}";
+
+{# ALLOW RECURSION FROM HOSTS #}
+{% if dns_options.allow_recursion is defined %}
+    allow-recursion {
+{% for dnshost in dns_options.allow_recursion %}
+        {{ dnshost }};
+{% endfor %}
+    };
+{% endif %}
+
+{# ALLOW TRANSTER FROM HOSTS #}
+{% if dns_options.allow_transfer is defined %}
+    allow-transfer {
+{% for dnshost in dns_options.allow_transfer %}
+        {{ dnshost }};
+{% endfor %}
+    };
+{% endif %}
+
+{# ALLOW QUERY FROM HOSTS #}
+{% if dns_options.allow_query is defined %}
+    allow-query {
+{% for dnshost in dns_options.allow_query %}
+        {{ dnshost }};
+{% endfor %}
+    };
+{% endif %}
+
+{# FORWAREDERS #}
+{% if dns_options.forwarders is defined %}
+    forwarders {
+{% for dnshost in dns_options.forwarders %}
+        {{ dnshost }};
+{% endfor %}
+    };
+{% endif %}
+
+    dnssec-validation  {{ dns_options.dnssec_validation }};
+    auth-nxdomain {{ dns_options.auth_nxdomain }};
+{# LISTEN ON #}
+{% if dns_options.listen_on is defined %}
+    listen-on {
+{% for listen_address in dns_options.listen_on %}
+        {{ listen_address }};
+{% endfor %}
+    };
+{% endif %}
+{# LISTEN ON V6 #}
+{% if dns_options.listen_on_v6 is defined %}
+    listen-on-v6 {
+{% for listen_address in dns_options.listen_on_v6 %}
+        {{ listen_address }};
+{% endfor %}
+    };
+{% endif %}
+
+    query-source address {{ dns_options.query_source_address }} port {{ dns_options.query_source_port }};
+    recursive-clients {{ dns_options.max_recursive_clients }};
+    tcp-clients {{ dns_options.max_tcp_clients }};
+    max-cache-size {{ dns_options.max_cache_size }};
+};

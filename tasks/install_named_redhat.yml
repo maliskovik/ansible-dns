@@ -1,0 +1,14 @@
+---
+
+- name: Install bind
+  apt:
+    name: "{{ dns_base_packages_redhat }}"
+    state: latest
+    force: yes
+  notify: Restart dns
+
+- set_fact:
+    dns_directory: "{{ dns_redhat_directory }}"
+    dns_config_directory: "{{ dns_redhat_config_directory }}"
+    dns_user: "{{ dns_redhat_user }}"
+    dns_service: "{{ dns_service_redhat }}"

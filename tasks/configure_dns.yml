@@ -1,0 +1,83 @@
+- name: Create masters directory
+  file:
+    state: directory
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    path: "{{ dns_config_directory }}/master"
+
+- name: Create logging directory
+  file:
+    state: directory
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    path: "{{ dns_log_directory }}"
+
+- name: Configure logging
+  copy:
+    src: logging
+    dest: "{{ dns_config_directory }}/named.conf.logging"
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+  notify: Reload dns
+
+- name: Configure main
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: main
+    dest: "{{ dns_config_directory }}/named.conf"
+  notify: Reload dns
+
+- name: Configure options
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: options
+    dest: "{{ dns_config_directory }}/named.conf.options"
+  notify: Reload dns
+
+- name: Configure acl
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: acl
+    dest: "{{ dns_config_directory }}/named.conf.acl"
+  notify: Reload dns
+
+- name: Configure blacklist
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: blacklist
+    dest: "{{ dns_config_directory }}/named.conf.blacklist"
+  notify: Reload dns
+
+- name: Configure default-zones
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: default_zones
+    dest: "{{ dns_config_directory }}/named.conf.default-zones"
+  notify: Reload dns
+
+- name: Configure zones
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: zones
+    dest: "{{ dns_config_directory }}/named.conf.zones"
+  notify: Reload dns
+
+- name: Generate zone host files
+  template:
+    owner: "{{ dns_user }}"
+    group: "{{ dns_user }}"
+    src: zone_hosts
+    dest: "{{ dns_config_directory }}/master/{{ item.name }}.hosts"
+  with_items: "{{ dns_zones.masters + dns_blackilist }}"
+  notify: Reload dns
+
+- name: Allow DNS
+  ufw:
+    port: 53
+    rule: allow

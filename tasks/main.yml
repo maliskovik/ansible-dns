@@ -1,0 +1,10 @@
+---
+# Nginx role main task file
+- include: install_bind_debian.yml
+  when: ansible_os_family == "Debian"
+- include: install_bind_archlinux.yml
+  when: ansible_os_family == "Archlinux"
+- include: install_named_redhat.yml
+  when: ansible_os_family == "RedHat"
+
+- include: configure_dns.yml

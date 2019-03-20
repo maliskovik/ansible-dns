@@ -1,0 +1,14 @@
+---
+
+- name: Install bind
+  apt:
+    name: "{{ dns_base_packages_debian }}"
+    state: latest
+    force: yes
+  notify: Restart dns
+
+- set_fact:
+     dns_directory: "{{ dns_debian_directory }}"
+     dns_config_directory: "{{ dns_debian_config_directory }}"
+     dns_user: "{{ dns_debian_user }}"
+     dns_service: "{{ dns_service_debian }}"

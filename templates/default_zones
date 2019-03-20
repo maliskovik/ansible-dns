@@ -1,0 +1,11 @@
+// GENERATED WITH ANSIBLE - MANUAL CHANGES WILL BE LOST
+
+{% if dns_default_zones is defined %}
+{% for zone in dns_default_zones|default(omit) %}
+zone "{{ zone.name }}" {
+    type {{ zone.type }};
+    file "{{ dns_config_directory }}/{{ zone.file }}";
+};
+
+{% endfor %}
+{% endif %}

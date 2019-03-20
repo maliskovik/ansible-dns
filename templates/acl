@@ -1,0 +1,13 @@
+// GENERATED WITH ANSIBLE - MANUAL CHANGES WILL BE LOST
+
+{% if dns_acl is defined %}
+{% for zone in dns_acl|default(omit) %}
+acl {{ zone.name }} {
+{% for address in zone.addresses %}
+    {{ address }};
+{% endfor %}
+};
+
+{% endfor %}
+{% endif %}
+#EOF

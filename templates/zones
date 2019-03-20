@@ -1,0 +1,35 @@
+// GENERATED WITH ANSIBLE - MANUAL CHANGES WILL BE LOST
+
+{# FORWARDED ZONES #}
+{% if dns_zones.forwarders is defined %}
+{% for zone in dns_zones.forwarders|default(omit)  %}
+zone "{{ zone.name }}" {
+    type forward;
+{% if zone.forwarders is defined %}
+    forwarders {
+{% for forwarder in zone.forwarders|default(omit)  %}
+        {{ forwarder }};
+{% endfor %}
+    };
+{% endif %}
+};
+
+{% endfor %}
+{% endif %}
+
+{# MASTER ZONES#}
+
+{% for zone in dns_zones.masters %}
+zone "{{ zone.name }}" {
+    type master;
+    file "{{ dns_config_directory }}/master/{{ zone.file|default(zone.name + ".hosts") }}";
+{% if zone.allow_query is defined %}
+    allow-query {
+{% for allowed_host in zone.allow_query|default(omit) %}
+        {{ allowed_host }};
+{% endfor %}
+    };
+{% endif%}
+};
+
+{% endfor %}

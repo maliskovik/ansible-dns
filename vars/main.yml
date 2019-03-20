@@ -1,0 +1,16 @@
+---
+dns_base_packages_arch:
+  - bind
+
+dns_base_packages_debian:
+  - bind9
+
+dns_redhat_directory: "/var/named"
+dns_debian_directory: "/var/cache/bind"
+dns_redhat_config_directory: "/etc/named"
+dns_debian_config_directory: "/etc/bind"
+dns_log_directory: "/var/log/named"
+dns_redhat_user: named
+dns_debian_user: bind
+dns_service_redhat: named
+dns_service_debian: bind9

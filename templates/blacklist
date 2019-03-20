@@ -1,0 +1,11 @@
+// GENERATED WITH ANSIBLE - MANUAL CHANGES WILL BE LOST
+
+{% if dns_blackilist is defined %}
+{% for blacklist in dns_blackilist|default(omit) %}
+zone "{{ blacklist.name }}" {
+    type {{ blacklist.type }};
+    file "{{ blacklist.file }}";
+};
+
+{% endfor %}
+{% endif %}

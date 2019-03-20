@@ -1,0 +1,6 @@
+---
+- name: Install bind
+  pacman:
+    name: "{{ dns_base_packages_arch }}"
+    state: latest
+  notify: Restart dns
