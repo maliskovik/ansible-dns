@@ -1,8 +1,9 @@
 - name: Create masters directory
   file:
     state: directory
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0755
     path: "{{ dns_config_directory }}/master"
 
 - name: Create logging directory
@@ -10,68 +11,77 @@
     state: directory
     owner: "{{ dns_user }}"
     group: "{{ dns_user }}"
+    mode: 0755
     path: "{{ dns_log_directory }}"
 
 - name: Configure logging
   copy:
     src: logging
     dest: "{{ dns_config_directory }}/named.conf.logging"
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
   notify: Reload dns
 
 - name: Configure main
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: main
     dest: "{{ dns_config_directory }}/named.conf"
   notify: Reload dns
 
 - name: Configure options
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: options
     dest: "{{ dns_config_directory }}/named.conf.options"
   notify: Reload dns
 
 - name: Configure acl
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: acl
     dest: "{{ dns_config_directory }}/named.conf.acl"
   notify: Reload dns
 
 - name: Configure blacklist
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: blacklist
     dest: "{{ dns_config_directory }}/named.conf.blacklist"
   notify: Reload dns
 
 - name: Configure default-zones
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: default_zones
     dest: "{{ dns_config_directory }}/named.conf.default-zones"
   notify: Reload dns
 
 - name: Configure zones
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: zones
     dest: "{{ dns_config_directory }}/named.conf.zones"
   notify: Reload dns
 
 - name: Generate zone host files
   template:
-    owner: "{{ dns_user }}"
-    group: "{{ dns_user }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
     src: zone_hosts
     dest: "{{ dns_config_directory }}/master/{{ item.name }}.hosts"
   with_items: "{{ dns_zones.masters + dns_blackilist }}"

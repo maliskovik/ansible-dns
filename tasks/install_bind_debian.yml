@@ -7,7 +7,8 @@
     force: yes
   notify: Restart dns
 
-- set_fact:
+- name: Set distro Variables
+  set_fact:
      dns_directory: "{{ dns_debian_directory }}"
      dns_config_directory: "{{ dns_debian_config_directory }}"
      dns_user: "{{ dns_debian_user }}"

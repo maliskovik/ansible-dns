@@ -4,7 +4,7 @@
 {% for blacklist in dns_blackilist|default(omit) %}
 zone "{{ blacklist.name }}" {
     type {{ blacklist.type }};
-    file "{{ blacklist.file }}";
+    file "{{ dns_config_directory }}/master/{{ blacklist.file }}";
 };
 
 {% endfor %}

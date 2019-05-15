@@ -1,13 +1,13 @@
 ---
 
 - name: Install bind
-  apt:
+  yum:
     name: "{{ dns_base_packages_redhat }}"
     state: latest
-    force: yes
   notify: Restart dns
 
-- set_fact:
+- name: Set distro Variables
+  set_fact:
     dns_directory: "{{ dns_redhat_directory }}"
     dns_config_directory: "{{ dns_redhat_config_directory }}"
     dns_user: "{{ dns_redhat_user }}"

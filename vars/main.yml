@@ -5,6 +5,10 @@ dns_base_packages_arch:
 dns_base_packages_debian:
   - bind9
 
+dns_base_packages_redhat:
+  - bind
+  - bind-utils
+
 dns_redhat_directory: "/var/named"
 dns_debian_directory: "/var/cache/bind"
 dns_redhat_config_directory: "/etc/named"
