@@ -13,7 +13,16 @@
 #################################---ENV---######################################
 
 SERIAL="$(date +%Y%m%d)01"
-ZONE_DIR="/etc/bind/master"
+if [ -d "/etc/bind/master" ]
+then
+  ZONE_DIR="/etc/bind/master"
+elif [ -d "/etc/named/master" ]
+then
+  ZONE_DIR="/etc/named/master"
+else
+  echo "ERROR: No bind directory found."
+  exit 1
+fi
 
 ################################################################################
 
