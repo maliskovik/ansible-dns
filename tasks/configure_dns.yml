@@ -14,6 +14,15 @@
     mode: 0755
     path: "{{ dns_log_directory }}"
 
+- name: Get serial
+  script:
+    cmd: files/get_dns_serial.sh
+  register: dns_serial_raw
+
+- name: Set serial
+  set_fact:
+    dns_serial: "{{ dns_serial_raw.stdout }}"
+
 - name: Configure logging
   copy:
     src: logging
