@@ -38,7 +38,7 @@ $TTL {{ item.ttl|default(dns_defaults.ttl) }}
 {% if item.txt_records is defined %}
 
 {% for record in item.txt_records|default(omit) %}
-{{ '%-20s'|format(record.name|default('@')) }}  {% if record.ttl is defined %}{{ '%-8s'|format(record.ttl|default("")) }} {% endif %}  {{ record.class|default("IN") }}  TXT    {{ record.text }}
+{{ '%-20s'|format(record.name|default('@')) }}  {% if record.ttl is defined %}{{ '%-8s'|format(record.ttl|default("")) }} {% endif %}  {{ record.class|default("IN") }}  TXT    ({% for subtext in record.text %}"{{ subtext }}" {% endfor %})
 {% endfor %}
 {% endif %}
 {# MX RECORDS #}

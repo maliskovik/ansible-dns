@@ -5,6 +5,7 @@
 {% for zone in dns_zones.forwarders|default(omit)  %}
 zone "{{ zone.name }}" {
     type forward;
+    forward only;
 {% if zone.forwarders is defined %}
     forwarders {
 {% for forwarder in zone.forwarders|default(omit)  %}
