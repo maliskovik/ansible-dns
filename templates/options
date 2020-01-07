@@ -39,8 +39,7 @@ options {
 {% endfor %}
     };
 {% endif %}
-
-    dnssec-validation  {{ dns_options.dnssec_validation }};
+    dnssec-enable {{ dns_options.dnssec_enabled }};
     auth-nxdomain {{ dns_options.auth_nxdomain }};
 {# LISTEN ON #}
 {% if dns_options.listen_on is defined %}
