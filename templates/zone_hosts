@@ -48,3 +48,10 @@ $TTL {{ item.ttl|default(dns_defaults.ttl) }}
 {{ '%-20s'|format(record.name|default('@')) }}  {% if record.ttl is defined %}{{ '%-8s'|format(record.ttl|default("")) }} {% endif %}  {{ record.class|default("IN") }}  MX     {{ record.priority}}  {{ record.target }}
 {% endfor %}
 {% endif %}
+{# ACC RECORDS #}
+{% if item.caa_records is defined %}
+
+{% for record in item.caa_records|default(omit) %}
+{{ '%-20s'|format(record.name|default("") + item.name + '.' ) }}    {{ record.class|default("IN") }}  CAA    0   {{ '%-20s'|format(record.type) }}  "{{ record.target }}"
+{% endfor %}
+{% endif %}
