@@ -55,3 +55,9 @@ $TTL {{ item.ttl|default(dns_defaults.ttl) }}
 {{ '%-20s'|format(record.name|default("") + item.name + '.' ) }}    {{ record.class|default("IN") }}  CAA    0   {{ '%-20s'|format(record.type) }}  "{{ record.target }}"
 {% endfor %}
 {% endif %}
+
+{% if item.srv_records is defined %}
+{% for record in item.srv_records|default(omit) %}
+{{ '%-20s'|format("_" + record.name|default("") + "._" + record.proto + "." + item.name + '.' ) }}    {{ record.class|default("IN") }}  SRV    {{ record.priority }}  {{ record.weight }} {{ record.port }} {{ record.target }}
+{% endfor %}
+{% endif %}
