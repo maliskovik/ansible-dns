@@ -4,7 +4,7 @@
 {% for zone in dns_default_zones|default(omit) %}
 zone "{{ zone.name }}" {
     type {{ zone.type }};
-    file "{{ dns_config_directory }}/{{ zone.file }}";
+    file "{{ zone.file }}";
 };
 
 {% endfor %}

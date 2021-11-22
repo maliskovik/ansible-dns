@@ -13,3 +13,11 @@
      dns_config_directory: "{{ dns_debian_config_directory }}"
      dns_user: "{{ dns_debian_user }}"
      dns_service: "{{ dns_service_debian }}"
+
+- name: Configure bind IPv4 only
+  lineinfile:
+    path: "/etc/default/named"
+    state: present
+    regexp: "^OPTIONS="
+    line: 'OPTIONS="-u bind -4"'
+  when: dns_ipv4_only
